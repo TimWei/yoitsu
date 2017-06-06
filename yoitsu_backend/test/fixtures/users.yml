@@ -1,0 +1,24 @@
+# == Schema Information
+#
+# Table name: users
+#
+#  id         :integer          not null, primary key
+#  name       :string(255)
+#  token      :string(255)
+#  is_admin   :boolean          default(FALSE)
+#  last_login :datetime
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  token: MyString
+  last_login: 2017-06-06 15:56:47
+
+two:
+  name: MyString
+  token: MyString
+  last_login: 2017-06-06 15:56:47

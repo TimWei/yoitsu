@@ -1,0 +1,17 @@
+-api v1
+	不帶安全口令
+		POST '/users'
+			用戶驗證/創建，
+				驗證: 帶用戶口令且驗證成功
+				創建: 不帶用戶口令，將創建口令存cookie
+
+	帶安全口令
+		GET '/ping'
+			檢查服務器是否上線
+		GET '/rooms'
+			取得房間列表
+		GET '/info'
+			取得自身用戶信息
+		POST '/rooms'
+			帶room_id，進入房間
+
