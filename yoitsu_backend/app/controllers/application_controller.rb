@@ -12,4 +12,8 @@ class ApplicationController < ActionController::API
     headers['Access-Control-Allow-Origin'] = 'https://netoge-haijin.moe'
     headers['Access-Control-Request-Method'] = '*'
 	end
+
+	def access_token_exsit?
+		params[:access_token] && !params[:access_token].empty? ? true : false
+	end
 end

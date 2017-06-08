@@ -1,6 +1,6 @@
 class Api::V1::UserController < ApplicationController
 	def create
-		if params[:access_token]
+		if access_token_exsit?
 			user = User.find_by_token params[:access_token]
 		else
 			user = User.create			
