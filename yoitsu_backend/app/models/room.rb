@@ -12,7 +12,7 @@ class Room < ApplicationRecord
 	has_many :messages
 	has_many :users, through: :messages
 
-	def exsit_messages
+	def exist_messages
 		#will change to using Redis later
 		self.messages.map{|t| {name: t.name, content: t.content, at: t.created_at} }
 	end
