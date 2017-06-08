@@ -11,4 +11,9 @@
 class Room < ApplicationRecord
 	has_many :messages
 	has_many :users, through: :messages
+
+	def exsit_messages
+		#will change to using Redis later
+		self.messages
+	end
 end
