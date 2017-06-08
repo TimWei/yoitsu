@@ -16,9 +16,5 @@ Bundler.require(*Rails.groups)
 module YoitsuBackend
   class Application < Rails::Application
     config.api_only = true
-    config.action_dispatch.default_headers.merge!({
-		  'Access-Control-Allow-Origin' => 'https://netoge-haijin.moe',
-		  'Access-Control-Request-Method' => '*'
-		})
   end
 end
