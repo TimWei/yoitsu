@@ -14,9 +14,9 @@ class Api::V1::RoomController < ApplicationController
 
 	def show
 		room = Room.find_by_id params[:room_id]
-		exsit_messages =  room.exsit_messages
+		exist_messages =  room.exist_messages
 		room_info = {}
-		room_info['exsit_messages'] = {size: exsit_messages.size, list: exsit_messages}
+		room_info['exist_messages'] = {size: exist_messages.size, list: exist_messages}
 		send_res data: room_info
 	end 
 
