@@ -16,7 +16,7 @@
 
 *	` POST '/users' `
 	- usage: find or create user for chat 
-  - parameters: 'access_token' or empty
+ 	- parameters: 'access_token' or empty
  	- response:
  		- status:
  			- 200:
