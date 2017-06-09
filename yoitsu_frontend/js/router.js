@@ -27,12 +27,11 @@ router.route('rooms', inRoom);
 
 router.route('error', error);
 
-
 function hideAll() {
-  console.log("hideall");
+  console.log("hide all");
   document.getElementById("rooms").style.display = "none";
   document.getElementById("chat_box").style.display = "none";
-  document.getElementById("chats").style.display = "none";
+  document.getElementById("login").style.display = "none";
   document.getElementById("error").style.display = "none";
 }
 
@@ -55,7 +54,6 @@ function login() {
   console.log(your_name);
   hideAll();
   document.getElementById("login").style.display = "block";
-
 }
 
 function inRoom() {
@@ -71,4 +69,179 @@ function chat() {
 function error() {
   hideAll();
   document.getElementById("error").style.display = "block";
+}
+
+
+
+ function User(connection) {
+      this.connection = connection;
+      this.visibilityDidChange = bind(this.visibilityDidChange, this);
+      this.reconnectAttempts = 0;
+    }
+
+
+check_server_available();
+
+var ACCESS_TOKEN = null;
+function get_access_token() {
+  ACCESS_TOKEN = document.cookie.match(/;?\s*t=([a-zA-Z0-9]+)/)[1] || null
+}
+
+function check_server_available() {
+  res = $.ajax({
+    type: "GET",
+    url: "https://chat.netoge-haijin.moe/api/v1/server/ping",
+    success: function (data) {
+      if (data['success'] == 'true') {
+        console.log('API available!');
+        window.location.hash = 'login';
+      }
+    },
+    error: function (json) {
+      console.log('API not available!');
+      window.location.hash = 'error';
+    }
+  });
+}
+
+function user_signin() {
+  //clear
+  document.getElementById("room-list").innerHTML = "";
+
+  res = $.ajax({
+    type: "POST",
+    url: "https://chat.netoge-haijin.moe/api/v1/users",
+    data: { 'access_token': ACCESS_TOKEN },
+    success: function (data) {
+      if (data['success'] == 'true') {
+        document.cookie = 't=' + data['data']['access_token'];
+        console.log('access_token: ' + data['data']['access_token']);
+        //	TODO proceed to next scene
+        //get_access_token();
+        get_rooms();
+      }
+    },
+    error: function (json) {
+      console.log('sign in fail');
+      window.location.hash = 'error';
+    }
+  });
+}
+
+function get_rooms() {
+  res = $.ajax({
+    type: "GET",
+    url: "https://chat.netoge-haijin.moe/api/v1/rooms",
+    data: { 'access_token': ACCESS_TOKEN },
+    success: function (data) {
+      if (data['success'] == 'true') {
+        console.log('size: ' + data['data']['size'])
+        room_list = data['data']['list']
+        room_list.forEach(e =>
+          newRoom(e)
+        )
+        window.location.hash = 'rooms';
+      }
+    },
+    error: function (json) {
+      console.log('API not available!');
+      window.location.hash = 'error';
+    }
+  });
+}
+
+function newRoom(room) {
+  var li_item = document.createElement('li');
+  li_item.className = "list-group-item";
+  li_item.onclick = function () { enter_room(room.id); };
+  var span_item = document.createElement('span');
+  span_item.className = "badge";
+  span_item.innerHTML = room.id;
+  li_item.innerHTML = room.name;
+
+  var rooms = document.getElementById("room-list");
+  rooms.appendChild(li_item);
+  li_item.appendChild(span_item);
+  console.log("append" + room.id);
+}
+
+function enter_room(room_id) {
+  // clear
+  document.getElementById("chats").innerHTML = "";
+
+  chat_channel(room_id);
+  document.getElementById("button").onclick = function () {
+    window.App.chat_channel.send_msg(document.getElementById("group-name").value)
+  };
+  res = $.ajax({
+    type: "GET",
+    url: 'https://chat.netoge-haijin.moe/api/v1/rooms/' + room_id,
+    data: { 'access_token': ACCESS_TOKEN },
+    success: function (data) {
+      if (data['success'] == 'true') {
+        exsit_message = data['data']['exist_messages']
+        console.log('old message size: ' + exsit_message['size'])
+        room_list = exsit_message['list']
+        room_list.forEach(e =>
+          newChat(e)
+        )
+        window.location.hash = 'chat';
+      }
+    },
+    error: function (json) {
+      console.log('API not available!');
+      window.location.hash = 'error';
+    }
+  });
+}
+
+function newChat(chat) {
+  var li_item = document.createElement('li');
+  li_item.className = "list-group-item";
+  var img_item = document.createElement('img');
+  img_item.src = "https://scontent.ftpe3-1.fna.fbcdn.net/v/t1.0-1/p32x32/17021506_10210281021173166_4590966021361719998_n.jpg?oh=a4651471ee232fbb566f49633fd77411&oe=59DFABE9";
+  var span_item = document.createElement('span');
+  span_item.className = "pull-right";
+  span_item.innerHTML = chat.at;
+  li_item.innerHTML = chat.content;
+  img_item.className = "pull-left";
+
+  var chats = document.getElementById("chats");
+  chats.insertBefore(li_item, chats.firstChild);
+  li_item.appendChild(img_item);
+  li_item.appendChild(span_item);
+  console.log("append" + chat.id);
+}
+
+
+function chat_channel(enter_room_id) {
+  console.log("channel");
+  ActionCable.startDebugging()
+  window.App = {}
+  window.App.cable = ActionCable.createConsumer("ws://chat.netoge-haijin.moe/cable")
+  window.App.chat_channel = window.App.cable.subscriptions.create({ channel: "ChatChannel", room_id: enter_room_id, access_token: ACCESS_TOKEN }, {
+    connected: function () {
+      writeLog("connected")
+    },
+    disconnected: function () {
+      writeLog("disconnected")
+    },
+    rejected: function () {
+      writeLog("rejected")
+    },
+    received: function (data) {
+      writeLog(data)
+      //TODO append received msg to billboard here
+      newChat(data)
+      console.log("typeof " + typeof(data));
+    },
+    send_msg: function (data) {
+      writeLog("sending")
+      this.perform("send_msg", { msg: data })
+    },
+  });
+
+  function writeLog(message) {
+    console.log("===WS: " + message)
+  }
 }

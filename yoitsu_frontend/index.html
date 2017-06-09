@@ -12,14 +12,7 @@
     <script src="js/jquery-3.2.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/router.js"></script>
-    <script src="js/check_server_available.js"></script>
-    <script src="js/get_access_token.js?v=1"></script>
-    <script src="js/user_signin.js"></script>
-    <script src="js/get_rooms.js"></script>
-    <script src="js/enter_room.js"></script>
-    <script src="js/api_handler.js"></script>
     <script src="js/action_cable.js"></script>
-    <script src="js/chat_channel.js"></script>
 </head>
 
 <body>
@@ -52,13 +45,7 @@
 
         <!-- page 2 -->
         <div id="rooms" style="display:none;">
-            <ul class="list-group">
-                <li class="list-group-item" onclick="inRoom()" style="cursor:pointer;">
-                    <span class="badge">3</span> 攝影技術交流^o^
-                </li>
-                <li class="list-group-item" onclick="inRoom()" style="cursor:pointer;">
-                    <span class="badge">2</span> Let's plays pokemon
-                </li>
+            <ul id="room-list" class="list-group">
             </ul>
         </div>
 
@@ -67,16 +54,10 @@
             <div class="input-group">
                 <input id="group-name" class="form-control" id="focusedInput" type="text" value="group name">
                 <span class="input-group-btn">
-                <button class="btn btn-default" type="button" onclick="newGroup()">generate</button>
+                <button id="button" class="btn btn-default" type="button">generate</button>
             </span>
             </div>
-            <ul id="chats" class="list-group" style="display:none;">
-                <li class="list-group-item">
-                    <span class="badge"></span> 我要進google
-                </li>
-                <li class="list-group-item">
-                    <span class="badge"></span> 我要當老闆
-                </li>
+            <ul id="chats" class="list-group">
             </ul>
         </div>
 
