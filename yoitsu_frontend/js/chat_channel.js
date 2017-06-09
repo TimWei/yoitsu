@@ -15,7 +15,8 @@ function chat_channel(enter_room_id) {
     received: function(data) {
       writeLog(data)
       //TODO append received msg to billboard here
-
+      //{"message":"text_body","sender":"sender_name","at":"08:10"}
+ 
     },
     send_msg: function(data) {
       writeLog("sending")
