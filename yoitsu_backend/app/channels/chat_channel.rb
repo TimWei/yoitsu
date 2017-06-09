@@ -14,11 +14,11 @@ class ChatChannel < ApplicationCable::Channel
 
   def send_msg body
     message = body['msg']
-    Message.create(content: message,name: @sender.name, user_id: @sender.id, room_id: @room_id)
-    broadcast_room message: message
+    msg = Message.create(content: message,name: @sender.name, user_id: @sender.id, room_id: @room_id)
+    broadcast_room json_data: {message: message, sender: @sender.name, at: msg.created_at.strftime("%H:%M")}
   end
 
   def broadcast_room opt={}
-    ActionCable.server.broadcast "room_#{@room_id}",  opt[:message]
+    ActionCable.server.broadcast "room_#{@room_id}",  opt[:json_data]
   end
 end
