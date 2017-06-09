@@ -7,6 +7,8 @@
 	4. 一些標題與返回按鈕
 	5. 把狗頭換成sender name
 	6. min width 325px
+	7. replace value to placeholder + enable/disable button on change + clear value after submit
+
 - 後端重點: 
 	exist_message 改用 redis的緩存
 	redis弄房間人數
