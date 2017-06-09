@@ -27,7 +27,6 @@ router.route('rooms', inRoom);
 
 router.route('error', error);
 
-
 function hideAll() {
   console.log("hide all");
   document.getElementById("rooms").style.display = "none";
@@ -84,7 +83,6 @@ function error() {
 check_server_available();
 
 var ACCESS_TOKEN = null;
-ACCESS_TOKEN = "4KV6J5UUYQC3bGgHhZiJsb44";
 function get_access_token() {
   ACCESS_TOKEN = document.cookie.match(/;?\s*t=([a-zA-Z0-9]+)/)[1] || null
 }
@@ -235,6 +233,7 @@ function chat_channel(enter_room_id) {
       writeLog(data)
       //TODO append received msg to billboard here
       newChat(data)
+      console.log("typeof " + typeof(data));
     },
     send_msg: function (data) {
       writeLog("sending")
