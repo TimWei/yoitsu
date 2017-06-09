@@ -14,6 +14,6 @@ class Room < ApplicationRecord
 
 	def exist_messages
 		#will change to using Redis later
-		self.messages.map{|t| {id: t.id, name: t.name, content: t.content, at: t.created_at.strftime('%H:%M') } }
+		self.messages.map{|t| {id: t.id, sender: t.name, content: t.content, at: t.created_at.strftime('%H:%M') } }
 	end
 end
