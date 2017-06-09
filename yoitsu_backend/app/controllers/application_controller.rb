@@ -8,9 +8,10 @@ class ApplicationController < ActionController::API
 		result['data'] = opt[:data]
 		render json: result 
 	end
+
 	def set_cors
-    headers['Access-Control-Allow-Origin'] = 'https://chatroom.netoge-haijin.moe'
-    headers['Access-Control-Request-Method'] = '*'
+    	headers['Access-Control-Allow-Origin'] = 'https://chatroom.netoge-haijin.moe'
+    	headers['Access-Control-Request-Method'] = '*'
 	end
 
 	def access_token_exsit?
