@@ -9,7 +9,12 @@ class Api::V1::RoomController < ApplicationController
 	end
 
 	def create
-		# planning
+		room = Room.new(name: params[:room_name])
+		if room.save
+			send_res data: {id: room.id, name: room.name}
+		else
+			send_res success: 'false'
+		end
 	end
 
 	def show
