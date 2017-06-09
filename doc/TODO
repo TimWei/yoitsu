@@ -8,8 +8,12 @@
 	5. 把狗頭換成sender name
 	6. min width 325px
 	7. replace value to placeholder + enable/disable button on change + clear value after submit
+	8. remove websocket subscription after leaving room
 
 - 後端重點: 
-	exist_message 改用 redis的緩存
-	redis弄房間人數
-	mv sql to active job(maybe better???? need research)
+	創建房間的功能與API
+
+	sub:
+		exist_message 改用 redis的緩存
+		redis弄房間人數
+		mv sql to active job(maybe better???? need research)
