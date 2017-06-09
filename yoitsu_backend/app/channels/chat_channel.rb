@@ -15,7 +15,7 @@ class ChatChannel < ApplicationCable::Channel
   def send_msg body
     message = body['msg']
     msg = Message.create(content: message,name: @sender.name, user_id: @sender.id, room_id: @room_id)
-    broadcast_room json_data: {message: message, sender: @sender.name, at: msg.created_at.strftime("%H:%M")}
+    broadcast_room json_data: {content: message, sender: @sender.name, at: msg.created_at.strftime("%H:%M")}
   end
 
   def broadcast_room opt={}

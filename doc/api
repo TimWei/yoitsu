@@ -47,6 +47,6 @@
 						-	'size': size of exist message list
 						-	'list': 
 							-	'id': message's id
-							-	'name': message sender's name
+							-	'sender': message sender's name
 							-	'content': message content
 							-	'at': message create time
