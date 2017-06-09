@@ -9,7 +9,7 @@ class ApplicationController < ActionController::API
 		render json: result 
 	end
 	def set_cors
-    headers['Access-Control-Allow-Origin'] = 'https://netoge-haijin.moe'
+    headers['Access-Control-Allow-Origin'] = 'https://chatroom.netoge-haijin.moe'
     headers['Access-Control-Request-Method'] = '*'
 	end
 
