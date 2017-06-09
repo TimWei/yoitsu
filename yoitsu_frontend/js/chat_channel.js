@@ -1,8 +1,8 @@
-function chat_channel() {
+function chat_channel(enter_room_id) {
   ActionCable.startDebugging()
   window.App = {}
   window.App.cable = ActionCable.createConsumer("ws://chat.netoge-haijin.moe/cable")
-  window.App.chat_channel = window.App.cable.subscriptions.create({channel: "ChatChannel", room_id: 1, access_token: 'BKS2aPhjgWRiyZr7LuTcsXyd'}, {
+  window.App.chat_channel = window.App.cable.subscriptions.create({channel: "ChatChannel", room_id: enter_room_id, access_token: ACCESS_TOKEN}, {
     connected: function() {
       writeLog("connected")
     },
