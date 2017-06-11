@@ -25,6 +25,8 @@ FrontRouter.prototype.resolve = function () {
 
 var router = new FrontRouter();
 
+router.route('/', login);
+
 router.route('chat', chat);
 
 router.route('login', login);
