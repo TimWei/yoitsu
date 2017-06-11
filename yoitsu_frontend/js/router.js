@@ -148,6 +148,7 @@ function user_signin() {
         document.cookie = 't=' + data['data']['access_token'];
         console.log('access_token: ' + data['data']['access_token']);
         get_access_token();
+        window.location.hash = 'rooms';
       }
     },
     error: function (json) {
@@ -169,7 +170,6 @@ function get_rooms() {
         room_list.forEach(e =>
           newRoom(e)
         )
-        window.location.hash = 'rooms';
       }
     },
     error: function (json) {
