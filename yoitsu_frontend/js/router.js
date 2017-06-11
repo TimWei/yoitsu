@@ -1,4 +1,9 @@
 var your_name = "";
+var ACCESS_TOKEN = null;
+
+function get_access_token() {
+  ACCESS_TOKEN = document.cookie.match(/;?\s*t=([a-zA-Z0-9]+)/)[1] || null
+}
 
 function FrontRouter() {
   this.routes = {};
@@ -9,6 +14,7 @@ function FrontRouter() {
 }
 
 FrontRouter.prototype.route = function (path, callback) {
+  get_access_token();
   this.routes[path] = callback || function () { };
 };
 
@@ -18,6 +24,8 @@ FrontRouter.prototype.resolve = function () {
 };
 
 var router = new FrontRouter();
+
+router.route('/', login);
 
 router.route('chat', chat);
 
@@ -47,6 +55,7 @@ function newGroup() {
 }
 
 function login() {
+  check_server_available();
   hideAll();
   $('#login').show();
   $('#sign_in_btn').click(function(){
@@ -94,28 +103,16 @@ function inRoom() {
 
 function chat() {
   hideAll();
-  $('#chat_box').show();
+
+  $('#chat_box').show();  
+  if (window.App.chat_channel) {
+    window.App.cable.subscriptions.remove(window.App.chat_channel);
+  }
 }
 
 function error() {
   hideAll();
   $('#error').show();
-}
-
-
-
- function User(connection) {
-      this.connection = connection;
-      this.visibilityDidChange = bind(this.visibilityDidChange, this);
-      this.reconnectAttempts = 0;
-    }
-
-
-check_server_available();
-
-var ACCESS_TOKEN = null;
-function get_access_token() {
-  ACCESS_TOKEN = document.cookie.match(/;?\s*t=([a-zA-Z0-9]+)/)[1] || null
 }
 
 function check_server_available() {
@@ -125,7 +122,6 @@ function check_server_available() {
     success: function (data) {
       if (data['success'] == 'true') {
         console.log('API available!');
-        window.location.hash = 'login';
       }
     },
     error: function (json) {
@@ -144,14 +140,15 @@ function user_signin() {
   res = $.ajax({
     type: "POST",
     url: "https://chat.netoge-haijin.moe/api/v1/users",
-    data: { 'access_token': ACCESS_TOKEN,
-            'name': your_name },
+    data: {
+      'access_token': ACCESS_TOKEN,
+      'name': your_name
+    },
     success: function (data) {
       if (data['success'] == 'true') {
         document.cookie = 't=' + data['data']['access_token'];
         console.log('access_token: ' + data['data']['access_token']);
         //	TODO proceed to next scene
-        //get_access_token();
         get_rooms();
       }
     },
@@ -205,7 +202,7 @@ function enter_room(room_id) {
   document.getElementById("chats").innerHTML = "";
 
   chat_channel(room_id);
-  document.getElementById("button").onclick = function () {
+  document.getElementById("say_button").onclick = function () {
     window.App.chat_channel.send_msg(document.getElementById("say").value)
   };
   res = $.ajax({
@@ -275,7 +272,7 @@ function chat_channel(enter_room_id) {
       //TODO append received msg to billboard here
       console.log(data);
       newChat(data)
-    }, 
+    },
     send_msg: function (data) {
       writeLog("sending")
       this.perform("send_msg", { msg: data })
