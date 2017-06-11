@@ -165,6 +165,7 @@ function get_rooms() {
     data: { 'access_token': ACCESS_TOKEN },
     success: function (data) {
       if (data['success'] == 'true') {
+        $('.room-list').html('');
         console.log('size: ' + data['data']['size'])
         room_list = data['data']['list']
         room_list.forEach(e =>
