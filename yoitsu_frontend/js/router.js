@@ -86,6 +86,7 @@ function login() {
 function inRoom() {
   hideAll();
   $('#rooms').show();
+  get_rooms();
   $('#say').change(function(){
     value = this.value;
     btn = $('#say_button');
@@ -146,9 +147,7 @@ function user_signin() {
       if (data['success'] == 'true') {
         document.cookie = 't=' + data['data']['access_token'];
         console.log('access_token: ' + data['data']['access_token']);
-        //	TODO proceed to next scene
         get_access_token();
-        get_rooms();
       }
     },
     error: function (json) {
