@@ -71,6 +71,9 @@ function inRoom() {
 function chat() {
   hideAll();
   document.getElementById("chat_box").style.display = "block";
+  if (window.App.chat_channel) {
+    window.App.cable.subscriptions.remove(window.App.chat_channel);
+  }
 }
 
 function error() {
@@ -103,8 +106,10 @@ function user_signin() {
   res = $.ajax({
     type: "POST",
     url: "https://chat.netoge-haijin.moe/api/v1/users",
-    data: { 'access_token': ACCESS_TOKEN,
-            'name': your_name },
+    data: {
+      'access_token': ACCESS_TOKEN,
+      'name': your_name
+    },
     success: function (data) {
       if (data['success'] == 'true') {
         document.cookie = 't=' + data['data']['access_token'];
@@ -233,7 +238,7 @@ function chat_channel(enter_room_id) {
       //TODO append received msg to billboard here
       console.log(data);
       newChat(data)
-    }, 
+    },
     send_msg: function (data) {
       writeLog("sending")
       this.perform("send_msg", { msg: data })
