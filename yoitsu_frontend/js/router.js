@@ -81,9 +81,6 @@ function login() {
 function inRoom() {
   hideAll();
   $('#rooms').show();
-  $('#say_button').click(function(){
-    $('#say').val('');
-  });
   $('#say').change(function(){
     value = this.value;
     btn = $('#say_button');
@@ -201,6 +198,7 @@ function enter_room(room_id) {
   chat_channel(room_id);
   document.getElementById("say_button").onclick = function () {
     window.App.chat_channel.send_msg(document.getElementById("say").value)
+     $('#say').val('');
   };
   res = $.ajax({
     type: "GET",
