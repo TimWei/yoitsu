@@ -37,10 +37,7 @@ router.route('error', error);
 
 function hideAll() {
   console.log("hide all");
-  document.getElementById("rooms").style.display = "none";
-  document.getElementById("chat_box").style.display = "none";
-  document.getElementById("login").style.display = "none";
-  document.getElementById("error").style.display = "none";
+  $('.container > div').hide();
 }
 
 function newGroup() {
@@ -60,17 +57,53 @@ function newGroup() {
 function login() {
   check_server_available();
   hideAll();
-  document.getElementById("login").style.display = "block";
+  $('#login').show();
+  $('#sign_in_btn').click(function(){
+    $('#login-value').val('');
+  });
+  $('#login-value').change(function(){
+    value = this.value;
+    btn = $('#sign_in_btn');
+    if(value == ''){
+      btn.attr('disabled',true);
+      btn.removeClass('btn-success');
+      btn.removeClass('btn-default');
+      btn.addClass('btn-danger');
+    }else{
+      btn.attr('disabled',false);
+      btn.addClass('btn-success');
+      btn.removeClass('btn-default');
+      btn.removeClass('btn-danger');
+    }
+  })
 }
 
 function inRoom() {
   hideAll();
-  document.getElementById("rooms").style.display = "block";
+  $('#rooms').show();
+  $('#say_button').click(function(){
+    $('#say').val('');
+  });
+  $('#say').change(function(){
+    value = this.value;
+    btn = $('#say_button');
+    if(value == ''){
+      btn.attr('disabled',true);
+      btn.removeClass('btn-success');
+      btn.removeClass('btn-default');
+      btn.addClass('btn-danger');
+    }else{
+      btn.attr('disabled',false);
+      btn.addClass('btn-success');
+      btn.removeClass('btn-default');
+      btn.removeClass('btn-danger');
+    }
+  })
 }
 
 function chat() {
   hideAll();
-  document.getElementById("chat_box").style.display = "block";
+  $('#chat_box').show();
   if (window.App.chat_channel) {
     window.App.cable.subscriptions.remove(window.App.chat_channel);
   }
@@ -78,7 +111,7 @@ function chat() {
 
 function error() {
   hideAll();
-  document.getElementById("error").style.display = "block";
+  $('#error').show();
 }
 
 function check_server_available() {
