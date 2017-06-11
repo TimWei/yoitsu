@@ -52,21 +52,25 @@ function newGroup() {
 function login() {
   hideAll();
   document.getElementById("login").style.display = "block";
+  get_access_token()
 }
 
 function inRoom() {
   hideAll();
   document.getElementById("rooms").style.display = "block";
+  get_access_token()
 }
 
 function chat() {
   hideAll();
   document.getElementById("chat_box").style.display = "block";
+  get_access_token()
 }
 
 function error() {
   hideAll();
   document.getElementById("error").style.display = "block";
+  get_access_token()
 }
 
 
@@ -118,7 +122,7 @@ function user_signin() {
         document.cookie = 't=' + data['data']['access_token'];
         console.log('access_token: ' + data['data']['access_token']);
         //	TODO proceed to next scene
-        //get_access_token();
+        get_access_token();
         get_rooms();
       }
     },
