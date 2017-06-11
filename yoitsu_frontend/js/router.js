@@ -1,6 +1,6 @@
 var your_name = "";
 var ACCESS_TOKEN = null;
-
+var window.App = {};
 function get_access_token() {
   ACCESS_TOKEN = document.cookie.match(/;?\s*t=([a-zA-Z0-9]+)/)[1] || null
 }
@@ -104,9 +104,6 @@ function inRoom() {
 function chat() {
   hideAll();
   $('#chat_box').show();  
-  if (window.App.chat_channel) {
-    window.App.cable.subscriptions.remove(window.App.chat_channel);
-  }
 }
 
 function error() {
@@ -197,6 +194,7 @@ function newRoom(room) {
 }
 
 function enter_room(room_id) {
+
   // clear
   document.getElementById("chats").innerHTML = "";
 
@@ -253,8 +251,9 @@ function newChat(chat) {
 
 function chat_channel(enter_room_id) {
   console.log("channel");
-  ActionCable.startDebugging()
-  window.App = {}
+  if (window.App.chat_channel) {
+    window.App.cable.subscriptions.remove(window.App.chat_channel);
+  }
   window.App.cable = ActionCable.createConsumer("ws://chat.netoge-haijin.moe/cable")
   window.App.chat_channel = window.App.cable.subscriptions.create({ channel: "ChatChannel", room_id: enter_room_id, access_token: ACCESS_TOKEN }, {
     connected: function () {
