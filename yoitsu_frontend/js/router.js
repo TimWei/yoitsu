@@ -1,4 +1,9 @@
 var your_name = "";
+var ACCESS_TOKEN = null;
+
+function get_access_token() {
+  ACCESS_TOKEN = document.cookie.match(/;?\s*t=([a-zA-Z0-9]+)/)[1] || null
+}
 
 function FrontRouter() {
   this.routes = {};
@@ -51,6 +56,7 @@ function newGroup() {
 }
 
 function login() {
+  check_server_available();
   hideAll();
   document.getElementById("login").style.display = "block";
 }
@@ -70,19 +76,6 @@ function error() {
   document.getElementById("error").style.display = "block";
 }
 
- function User(connection) {
-      this.connection = connection;
-      this.visibilityDidChange = bind(this.visibilityDidChange, this);
-      this.reconnectAttempts = 0;
-    }
-
-check_server_available();
-
-var ACCESS_TOKEN = null;
-function get_access_token() {
-  ACCESS_TOKEN = document.cookie.match(/;?\s*t=([a-zA-Z0-9]+)/)[1] || null
-}
-
 function check_server_available() {
   res = $.ajax({
     type: "GET",
@@ -90,7 +83,6 @@ function check_server_available() {
     success: function (data) {
       if (data['success'] == 'true') {
         console.log('API available!');
-        window.location.hash = 'login';
       }
     },
     error: function (json) {
