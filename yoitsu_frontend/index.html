@@ -35,7 +35,7 @@
 
             <form class="form-horizontal">
                 <div class="input-group">
-                    <input id="login-value" class="form-control" id="focusedInput" type="text" value="your name">
+                    <input id="login-value" class="form-control" id="focusedInput" type="text" placeholder="your name">
                     <span class="input-group-btn">
                     <button class="btn btn-default" type="button" onclick="user_signin()">sign in</button>
                 </span>
@@ -52,7 +52,7 @@
         <!-- page 3 -->
         <div id="chat_box" style="display:none;">
             <div class="input-group">
-                <input id="say" class="form-control" type="text" value="What on your mind?">
+                <input id="say" class="form-control" type="text" placeholder="What on your mind?">
                 <span class="input-group-btn">
                 <button id="button" class="btn btn-default" type="button">generate</button>
             </span>
@@ -70,7 +70,11 @@
         </div>
     </div>
 </body>
-
+<style>
+    body {
+        min-width: 325px;
+    }
+</style>
 
 
 </html>
