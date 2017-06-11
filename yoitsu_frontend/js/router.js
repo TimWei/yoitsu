@@ -103,7 +103,6 @@ function inRoom() {
 
 function chat() {
   hideAll();
-
   $('#chat_box').show();  
   if (window.App.chat_channel) {
     window.App.cable.subscriptions.remove(window.App.chat_channel);
