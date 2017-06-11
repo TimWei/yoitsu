@@ -49,6 +49,9 @@ function newGroup() {
 function login() {
   hideAll();
   $('#login').show();
+  $('#sign_in_btn').click(function(){
+    $('#login-value').val('');
+  });
   $('#login-value').change(function(){
     value = this.value;
     btn = $('#sign_in_btn');
@@ -69,6 +72,9 @@ function login() {
 function inRoom() {
   hideAll();
   $('#rooms').show();
+  $('#say_button').click(function(){
+    $('#say').val('');
+  });
   $('#say').change(function(){
     value = this.value;
     btn = $('#say_button');
