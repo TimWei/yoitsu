@@ -103,7 +103,7 @@ function inRoom() {
 
 function chat() {
   hideAll();
-  $('#chat_box').show();
+  $('#chat_box').show();  
   if (window.App.chat_channel) {
     window.App.cable.subscriptions.remove(window.App.chat_channel);
   }
@@ -201,7 +201,7 @@ function enter_room(room_id) {
   document.getElementById("chats").innerHTML = "";
 
   chat_channel(room_id);
-  document.getElementById("button").onclick = function () {
+  document.getElementById("say_button").onclick = function () {
     window.App.chat_channel.send_msg(document.getElementById("say").value)
   };
   res = $.ajax({
