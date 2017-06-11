@@ -66,7 +66,7 @@ function login() {
   $('#sign_in_btn').click(function(){
     $('#login-value').val('');
   });
-  $('#login-value').change(function(){
+  $('#login-value').bind('input', function(){
     value = this.value;
     btn = $('#sign_in_btn');
     if(value == ''){
@@ -87,7 +87,7 @@ function inRoom() {
   hideAll();
   $('#rooms').show();
   get_rooms();
-  $('#say').change(function(){
+  $('#say').bind('input', function(){
     value = this.value;
     btn = $('#say_button');
     if(value == ''){
