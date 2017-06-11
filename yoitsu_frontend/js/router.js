@@ -9,6 +9,7 @@ function FrontRouter() {
 }
 
 FrontRouter.prototype.route = function (path, callback) {
+  get_access_token();
   this.routes[path] = callback || function () { };
 };
 
@@ -52,35 +53,28 @@ function newGroup() {
 function login() {
   hideAll();
   document.getElementById("login").style.display = "block";
-  get_access_token()
 }
 
 function inRoom() {
   hideAll();
   document.getElementById("rooms").style.display = "block";
-  get_access_token()
 }
 
 function chat() {
   hideAll();
   document.getElementById("chat_box").style.display = "block";
-  get_access_token()
 }
 
 function error() {
   hideAll();
   document.getElementById("error").style.display = "block";
-  get_access_token()
 }
-
-
 
  function User(connection) {
       this.connection = connection;
       this.visibilityDidChange = bind(this.visibilityDidChange, this);
       this.reconnectAttempts = 0;
     }
-
 
 check_server_available();
 
@@ -122,7 +116,6 @@ function user_signin() {
         document.cookie = 't=' + data['data']['access_token'];
         console.log('access_token: ' + data['data']['access_token']);
         //	TODO proceed to next scene
-        get_access_token();
         get_rooms();
       }
     },
