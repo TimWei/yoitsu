@@ -29,10 +29,7 @@ router.route('error', error);
 
 function hideAll() {
   console.log("hide all");
-  document.getElementById("rooms").style.display = "none";
-  document.getElementById("chat_box").style.display = "none";
-  document.getElementById("login").style.display = "none";
-  document.getElementById("error").style.display = "none";
+  $('.container > div').hide();
 }
 
 function newGroup() {
@@ -51,22 +48,52 @@ function newGroup() {
 
 function login() {
   hideAll();
-  document.getElementById("login").style.display = "block";
+  $('#login').show();
+  $('#login-value').change(function(){
+    value = this.value;
+    btn = $('#sign_in_btn');
+    if(value == ''){
+      btn.attr('disabled',true);
+      btn.removeClass('btn-success');
+      btn.removeClass('btn-default');
+      btn.addClass('btn-danger');
+    }else{
+      btn.attr('disabled',false);
+      btn.addClass('btn-success');
+      btn.removeClass('btn-default');
+      btn.removeClass('btn-danger');
+    }
+  })
 }
 
 function inRoom() {
   hideAll();
-  document.getElementById("rooms").style.display = "block";
+  $('#rooms').show();
+  $('#say').change(function(){
+    value = this.value;
+    btn = $('#say_button');
+    if(value == ''){
+      btn.attr('disabled',true);
+      btn.removeClass('btn-success');
+      btn.removeClass('btn-default');
+      btn.addClass('btn-danger');
+    }else{
+      btn.attr('disabled',false);
+      btn.addClass('btn-success');
+      btn.removeClass('btn-default');
+      btn.removeClass('btn-danger');
+    }
+  })
 }
 
 function chat() {
   hideAll();
-  document.getElementById("chat_box").style.display = "block";
+  $('#chat_box').show();
 }
 
 function error() {
   hideAll();
-  document.getElementById("error").style.display = "block";
+  $('#error').show();
 }
 
 
