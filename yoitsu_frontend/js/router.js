@@ -50,8 +50,6 @@ function newGroup() {
 }
 
 function login() {
-  your_name = document.getElementById("login-value").value;
-  console.log(your_name);
   hideAll();
   document.getElementById("login").style.display = "block";
 }
@@ -105,13 +103,16 @@ function check_server_available() {
 }
 
 function user_signin() {
+  your_name = document.getElementById("login-value").value;
+  console.log(your_name);
   //clear
   document.getElementById("room-list").innerHTML = "";
 
   res = $.ajax({
     type: "POST",
     url: "https://chat.netoge-haijin.moe/api/v1/users",
-    data: { 'access_token': ACCESS_TOKEN },
+    data: { 'access_token': ACCESS_TOKEN,
+            'name': your_name },
     success: function (data) {
       if (data['success'] == 'true') {
         document.cookie = 't=' + data['data']['access_token'];
