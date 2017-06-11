@@ -50,8 +50,6 @@ function newGroup() {
 }
 
 function login() {
-  your_name = document.getElementById("login-value").value;
-  console.log(your_name);
   hideAll();
   document.getElementById("login").style.display = "block";
 }
@@ -105,6 +103,8 @@ function check_server_available() {
 }
 
 function user_signin() {
+  your_name = document.getElementById("login-value").value;
+  console.log(your_name);
   //clear
   document.getElementById("room-list").innerHTML = "";
 
@@ -151,6 +151,7 @@ function get_rooms() {
 }
 
 function newRoom(room) {
+  console.log(room);
   var li_item = document.createElement('li');
   li_item.className = "list-group-item";
   li_item.onclick = function () { enter_room(room.id); };
@@ -171,7 +172,7 @@ function enter_room(room_id) {
 
   chat_channel(room_id);
   document.getElementById("button").onclick = function () {
-    window.App.chat_channel.send_msg(document.getElementById("group-name").value)
+    window.App.chat_channel.send_msg(document.getElementById("say").value)
   };
   res = $.ajax({
     type: "GET",
@@ -196,20 +197,26 @@ function enter_room(room_id) {
 }
 
 function newChat(chat) {
-  var li_item = document.createElement('li');
-  li_item.className = "list-group-item";
-  var img_item = document.createElement('img');
-  img_item.src = "https://scontent.ftpe3-1.fna.fbcdn.net/v/t1.0-1/p32x32/17021506_10210281021173166_4590966021361719998_n.jpg?oh=a4651471ee232fbb566f49633fd77411&oe=59DFABE9";
+  // wrap on chat
+  var one_chat = document.createElement('div');
+  // name
+  var label_item = document.createElement('label');
+  label_item.className = "control-label";
+  label_item.innerHTML = chat.sender;
+  // at time
   var span_item = document.createElement('span');
   span_item.className = "pull-right";
   span_item.innerHTML = chat.at;
-  li_item.innerHTML = chat.content;
-  img_item.className = "pull-left";
+  // content
+  var div_item = document.createElement('div');
+  div_item.className = "well well-sm";
+  div_item.innerHTML = chat.content;
 
   var chats = document.getElementById("chats");
-  chats.insertBefore(li_item, chats.firstChild);
-  li_item.appendChild(img_item);
-  li_item.appendChild(span_item);
+  chats.insertBefore(one_chat, chats.firstChild);
+  one_chat.appendChild(label_item);
+  one_chat.appendChild(span_item);
+  one_chat.appendChild(div_item);
   console.log("append" + chat.id);
 }
 
@@ -232,9 +239,9 @@ function chat_channel(enter_room_id) {
     received: function (data) {
       writeLog(data)
       //TODO append received msg to billboard here
+      console.log(data);
       newChat(data)
-      console.log("typeof " + typeof(data));
-    },
+    }, 
     send_msg: function (data) {
       writeLog("sending")
       this.perform("send_msg", { msg: data })

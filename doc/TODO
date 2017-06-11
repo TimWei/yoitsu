@@ -5,7 +5,7 @@
 	2. 滑鼠連打對策(add thresh)
 	3. loading page
 	4. 一些標題與返回按鈕
-	5. 把狗頭換成sender name
+	5. 把狗頭換成sender name (ok)
 	6. min width 325px
 	7. replace value to placeholder + enable/disable button on change + clear value after submit
 	8. remove websocket subscription after leaving room
