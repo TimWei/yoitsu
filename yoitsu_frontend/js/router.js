@@ -2,7 +2,12 @@ var your_name = "";
 var ACCESS_TOKEN = null;
 window.App = {};
 function get_access_token() {
-  ACCESS_TOKEN = document.cookie.match(/;?\s*t=([a-zA-Z0-9]+)/)[1] || null
+  cur_token = document.cookie.match(/;?\s*t=([a-zA-Z0-9]+)/)
+  if(cur_token){
+    ACCESS_TOKEN = cur_token[1]
+  }else{
+    ACCESS_TOKEN = null
+  } 
 }
 
 function FrontRouter() {
