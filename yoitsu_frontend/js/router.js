@@ -1,6 +1,6 @@
 var your_name = "";
 var ACCESS_TOKEN = null;
-var window.App = {};
+window.App = {};
 function get_access_token() {
   ACCESS_TOKEN = document.cookie.match(/;?\s*t=([a-zA-Z0-9]+)/)[1] || null
 }
