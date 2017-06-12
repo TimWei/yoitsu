@@ -1,14 +1,11 @@
 #TODOs
 
-- 前端重構重點 
+- 前端 
 	. callback位置需放正確 	
 	. 滑鼠連打對策(add thresh)
 	. loading page 
 	
-- 後端重點: 
-	創建房間的功能與API
-
-	sub:
-		exist_message 改用 redis的緩存
-		redis弄房間人數
-		mv sql to active job(maybe better???? need research)
+- 後端 
+	exist_message 改用 redis的緩存
+	redis弄房間人數
+	mv sql to active job(maybe better???? need research)
