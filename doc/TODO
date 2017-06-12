@@ -1,15 +1,10 @@
 #TODOs
 
 - 前端重構重點 
-	1. callback位置需放正確 	
-	2. 滑鼠連打對策(add thresh)
-	3. loading page
-	4. 一些標題與返回按鈕
-	5. 把狗頭換成sender name (ok)
-	6. min width 325px (ok)
-	7. replace value to placeholder + enable/disable button on change + clear value after submit 
-	8. remove websocket subscription after leaving room
-
+	. callback位置需放正確 	
+	. 滑鼠連打對策(add thresh)
+	. loading page 
+	
 - 後端重點: 
 	創建房間的功能與API
 
