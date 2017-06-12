@@ -1,5 +1,7 @@
 var your_name = "";
 var ACCESS_TOKEN = null;
+var HOST = '//chat.netoge-haijin.moe';
+var CABLE_HOST = 'ws://chat.netoge-haijin.moe/cable'
 window.App = {};
 function get_access_token() {
   cur_token = document.cookie.match(/;?\s*t=([a-zA-Z0-9]+)/)
@@ -117,7 +119,7 @@ function error() {
 function check_server_available() {
   res = $.ajax({
     type: "GET",
-    url: "https://chat.netoge-haijin.moe/api/v1/server/ping",
+    url: HOST + "/api/v1/server/ping",
     success: function (data) {
       if (data['success'] == 'true') {
         console.log('API available!');
@@ -138,7 +140,7 @@ function user_signin() {
 
   res = $.ajax({
     type: "POST",
-    url: "https://chat.netoge-haijin.moe/api/v1/users",
+    url: HOST + "/api/v1/users",
     data: {
       'access_token': ACCESS_TOKEN,
       'name': your_name
@@ -161,7 +163,7 @@ function user_signin() {
 function get_rooms() {
   res = $.ajax({
     type: "GET",
-    url: "https://chat.netoge-haijin.moe/api/v1/rooms",
+    url: HOST + "/api/v1/rooms",
     data: { 'access_token': ACCESS_TOKEN },
     success: function (data) {
       if (data['success'] == 'true') {
@@ -208,7 +210,7 @@ function enter_room(room_id) {
   };
   res = $.ajax({
     type: "GET",
-    url: 'https://chat.netoge-haijin.moe/api/v1/rooms/' + room_id,
+    url: HOST + '/api/v1/rooms/' + room_id,
     data: { 'access_token': ACCESS_TOKEN },
     success: function (data) {
       if (data['success'] == 'true') {
@@ -258,7 +260,7 @@ function chat_channel(enter_room_id) {
   if (window.App.chat_channel) {
     window.App.cable.subscriptions.remove(window.App.chat_channel);
   }
-  window.App.cable = ActionCable.createConsumer("ws://chat.netoge-haijin.moe/cable")
+  window.App.cable = ActionCable.createConsumer(CABLE_HOST)
   window.App.chat_channel = window.App.cable.subscriptions.create({ channel: "ChatChannel", room_id: enter_room_id, access_token: ACCESS_TOKEN }, {
     connected: function () {
       writeLog("connected")
