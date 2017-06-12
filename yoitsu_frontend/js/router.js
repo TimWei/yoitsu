@@ -1,8 +1,9 @@
-var your_name = "";
+var USER_NAME = "";
 var ACCESS_TOKEN = null;
 var HOST = '//chat.netoge-haijin.moe';
 var CABLE_HOST = 'ws://chat.netoge-haijin.moe/cable'
 window.App = {};
+
 function get_access_token() {
   cur_token = document.cookie.match(/;?\s*t=([a-zA-Z0-9]+)/)
   if(cur_token){
@@ -12,7 +13,7 @@ function get_access_token() {
   } 
 }
 
-function FrontRouter() {
+function front_router() {
   this.routes = {};
 
   window.addEventListener('load', this.resolve.bind(this), false);
@@ -20,50 +21,21 @@ function FrontRouter() {
   window.addEventListener('hashchange', this.resolve.bind(this), false);
 }
 
-FrontRouter.prototype.route = function (path, callback) {
+front_router.prototype.route = function (path, callback) {
   get_access_token();
   this.routes[path] = callback || function () { };
 };
 
-FrontRouter.prototype.resolve = function () {
+front_router.prototype.resolve = function () {
   this.curHash = location.hash.slice(1) || '/';
   typeof this.routes[this.curHash] === 'function' && this.routes[this.curHash]();
 };
 
-var router = new FrontRouter();
+var router = new front_router();
 
-router.route('/', login);
-
-router.route('chat', chat);
-
-router.route('login', login);
-
-router.route('rooms', inRoom);
-
-router.route('error', error);
-
-function hideAll() {
-  console.log("hide all");
-  $('.container > div').hide();
-}
-
-function newGroup() {
-  var li_item = document.createElement('li');
-  li_item.className = "list-group-item";
-  var span_item = document.createElement('span');
-  span_item.className = "badge";
-  //span_item.innerHTML = "0";
-
-  li_item.innerHTML = document.getElementById("group-name").value;
-
-  var rooms = document.getElementById("chats");
-  rooms.appendChild(li_item);
-  li_item.appendChild(span_item);
-}
-
-function login() {
+router.route('/', function() {
   check_server_available();
-  hideAll();
+  hide_all();
   $('#login').show();
   $('#sign_in_btn').click(function(){
     $('#login-value').val('');
@@ -83,10 +55,15 @@ function login() {
       btn.removeClass('btn-danger');
     }
   })
-}
+});
 
-function inRoom() {
-  hideAll();
+router.route('chat', function() {
+  hide_all();
+  $('#chat_box').show();  
+});
+
+router.route('rooms', function() {
+  hide_all();
   $('#rooms').show();
   get_rooms();
   $('#say').bind('input', function(){
@@ -104,17 +81,18 @@ function inRoom() {
       btn.removeClass('btn-danger');
     }
   })
-}
+});
 
-function chat() {
-  hideAll();
-  $('#chat_box').show();  
-}
-
-function error() {
-  hideAll();
+router.route('error', function() {
+  hide_all();
   $('#error').show();
+});
+
+function hide_all() {
+  console.log("hide all");
+  $('.container > div').hide();
 }
+
 
 function check_server_available() {
   res = $.ajax({
@@ -133,8 +111,8 @@ function check_server_available() {
 }
 
 function user_signin() {
-  your_name = document.getElementById("login-value").value;
-  console.log(your_name);
+  USER_NAME = document.getElementById("login-value").value;
+  console.log(USER_NAME);
   //clear
   document.getElementById("room-list").innerHTML = "";
 
@@ -143,7 +121,7 @@ function user_signin() {
     url: HOST + "/api/v1/users",
     data: {
       'access_token': ACCESS_TOKEN,
-      'name': your_name
+      'name': USER_NAME
     },
     success: function (data) {
       if (data['success'] == 'true') {
@@ -171,7 +149,7 @@ function get_rooms() {
         console.log('size: ' + data['data']['size'])
         room_list = data['data']['list']
         room_list.forEach(e =>
-          newRoom(e)
+          new_room(e)
         )
       }
     },
@@ -182,7 +160,7 @@ function get_rooms() {
   });
 }
 
-function newRoom(room) {
+function new_room(room) {
   console.log(room);
   var li_item = document.createElement('li');
   li_item.className = "list-group-item";
@@ -218,7 +196,7 @@ function enter_room(room_id) {
         console.log('old message size: ' + exsit_message['size'])
         room_list = exsit_message['list']
         room_list.forEach(e =>
-          newChat(e)
+          new_chat(e)
         )
         window.location.hash = 'chat';
       }
@@ -230,7 +208,7 @@ function enter_room(room_id) {
   });
 }
 
-function newChat(chat) {
+function new_chat(chat) {
   // wrap on chat
   var one_chat = document.createElement('div');
   // name
@@ -275,7 +253,7 @@ function chat_channel(enter_room_id) {
       writeLog(data)
       //TODO append received msg to billboard here
       console.log(data);
-      newChat(data)
+      new_chat(data)
     },
     send_msg: function (data) {
       writeLog("sending")
