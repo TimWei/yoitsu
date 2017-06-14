@@ -234,7 +234,7 @@ function new_message(chat) {
   var chats = $('#chats');
   chats.insertBefore(one_chat, chats.firstChild);
   $('#chats').prepend(
-    one_chat.append(label_item).append(span_item).append(div_item);
+    one_chat.append(label_item).append(span_item).append(div_item)
   );
   console.log("get message id: " + chat.id);
 }
