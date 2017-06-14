@@ -70,8 +70,8 @@ router.route('/', function(cur_hash) {
 
 router.route('chat\\/[0-9]*', function(cur_hash) {
   get_access_token();
-  room_id = cur_hash.split('/')[1]
-  enter_room(room_id);
+  room_id = cur_hash.split('/')[1];
+  chat_init(room_id);
   hide_all();
   $('#chat_box').show();  
 });
@@ -188,7 +188,7 @@ function new_room_item(room) {
   console.log("get room id : " + room.id);
 }
 
-function enter_room(room_id) {
+function chat_init(room_id) {
   // clear
   $('#chats').html('');
   get_exsit_message(room_id);
@@ -212,7 +212,6 @@ function get_exsit_message(room_id){
         exist_messages.forEach(e =>
           new_message(e)
         )
-        window.location.hash = 'chat';
       }
     },
     error: function (json) {
