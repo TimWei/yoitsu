@@ -15,14 +15,11 @@ function get_access_token() {
 
 function front_router() {
   this.routes = {};
-
   window.addEventListener('load', this.resolve.bind(this), false);
-
   window.addEventListener('hashchange', this.resolve.bind(this), false);
 }
 
 front_router.prototype.route = function (path, callback) {
-  get_access_token();
   this.routes[path] = callback || function () { };
 };
 
@@ -34,6 +31,7 @@ front_router.prototype.resolve = function () {
 var router = new front_router();
 
 router.route('/', function() {
+  get_access_token();
   check_server_available();
   hide_all();
   $('#login').show();
@@ -58,11 +56,13 @@ router.route('/', function() {
 });
 
 router.route('chat', function() {
+  get_access_token();
   hide_all();
   $('#chat_box').show();  
 });
 
 router.route('rooms', function() {
+  get_access_token();
   hide_all();
   $('#rooms').show();
   get_rooms();
