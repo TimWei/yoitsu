@@ -68,7 +68,7 @@ router.route('/', function(cur_hash) {
   })
 });
 
-router.route('chat\/[0-9]*', function(cur_hash) {
+router.route('chat\\/[0-9]*', function(cur_hash) {
   get_access_token();
   room_id = cur_hash.split('/')[1]
   enter_room(room_id);
