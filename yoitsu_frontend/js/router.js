@@ -193,7 +193,7 @@ function chat_init(room_id) {
   $('#chats').html('');
   get_exsit_message(room_id);
   chat_channel(room_id);
-  $('#say_button').click(function(){
+  $('#say_button').unbind().click(function(){
     window.App.chat_channel.send_msg($('#say').val());
     $('#say').val('');
   });
@@ -222,6 +222,7 @@ function get_exsit_message(room_id){
 }
 
 function new_message(chat) {
+  console.log("get message id: " + chat.id);
   // wrap on chat
   var one_chat = $('<div>');
   // name
@@ -231,11 +232,9 @@ function new_message(chat) {
   // content
   var div_item = $('<div class="well well-sm">').html(chat.content);
   var chats = $('#chats');
-  chats.insertBefore(one_chat, chats.firstChild);
   $('#chats').prepend(
     one_chat.append(label_item).append(span_item).append(div_item)
   );
-  console.log("get message id: " + chat.id);
 }
 
 
