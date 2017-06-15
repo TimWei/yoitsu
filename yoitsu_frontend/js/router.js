@@ -46,8 +46,7 @@ var router = new FrontRouter();
 router.route('/', function(cur_hash) {
   get_access_token();
   check_server_available();
-  hide_all();
-  $('#login').show();
+  div_active($('#login'));
   $('#sign_in_btn').click(function(){
     $('#login-value').val('');
   });
@@ -71,15 +70,13 @@ router.route('/', function(cur_hash) {
 router.route('rooms\\/[0-9]*', function(cur_hash) {
   get_access_token();
   room_id = cur_hash.split('/')[1];
-  chat_init(room_id);
-  hide_all();
-  $('#chat_box').show();  
+  chat_init(room_id); 
+  div_active($('#chat_box'));
 });
 
 router.route('rooms', function(cur_hash) {
   get_access_token();
-  hide_all();
-  $('#rooms').show();
+  div_active($('#rooms'));
   get_rooms_list();
   $('#say').bind('input', function(){
     value = this.value;
@@ -99,12 +96,12 @@ router.route('rooms', function(cur_hash) {
 });
 
 router.route('error', function(cur_hash) {
-  hide_all();
-  $('#error').show();
+  div_active($('#error'));
 });
 
-function hide_all() {
+function div_active(element) {
   $('.container > div').hide();
+  element.show();
 }
 
 
