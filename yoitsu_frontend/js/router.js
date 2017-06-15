@@ -177,7 +177,7 @@ function get_rooms_list() {
 function new_room_item(room) {
   console.log(room);
   var rooms = $('#room-list');
-  var click_pad = $('<a href="#chat/' + room.id + '">')
+  var click_pad = $('<a href="#rooms/' + room.id + '">')
   var li_item = $("<li class='list-group-item'>").text(room.name);
   var span_item =$("<span class='badge'>").text(room.id);
  
@@ -221,19 +221,19 @@ function get_exsit_message(room_id){
   });
 }
 
-function new_message(chat) {
-  console.log("get message id: " + chat.id);
+function new_message(message) {
+  console.log("get message id: " + message.id);
   // wrap on chat
-  var one_chat = $('<div>');
+  var message_div = $('<div>');
   // name
-  var label_item = $('<label class="control-label">').html(chat.sender);
+  var label_item = $('<label class="control-label">').html(message.sender);
   // at time
-  var span_item = $('<span class="pull-right">').html(chat.at);
+  var span_item = $('<span class="pull-right">').html(message.at);
   // content
-  var div_item = $('<div class="well well-sm">').html(chat.content);
+  var message_content = $('<div class="well well-sm">').html(message.content);
   var chats = $('#chats');
   $('#chats').prepend(
-    one_chat.append(label_item).append(span_item).append(div_item)
+    message_div.append(label_item).append(span_item).append(message_content)
   );
 }
 
