@@ -48,9 +48,6 @@ router.route('/', function(cur_hash) {
   get_access_token();
   check_server_available();
   div_active($('#login'));
-  $('#sign_in_btn').click(function(){
-    $('#login-value').val('');
-  });
   $('#login-value').on('input', function(){
     value = this.value;
     btn = $('#sign_in_btn');
