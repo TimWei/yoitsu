@@ -59,7 +59,8 @@ router.route('/', function(cur_hash) {
     }else{
       btn_state(btn, 'success');
     }
-  })
+  });
+  $('#sign_in_form').off().on('submit', user_signin);
 });
 
 router.route('rooms\\/[0-9]*', function(cur_hash) {
@@ -101,7 +102,8 @@ function check_server_available() {
   });
 }
 
-function user_signin() {
+function user_signin(e) {
+  e.preventDefault();
   USER_NAME = $('#login-value').val();
   console.log(USER_NAME);
   //clear
@@ -180,7 +182,8 @@ function chat_init(room_id) {
       btn_state(btn, 'success');
     }
   });
-  $('#say_button').off().click(function(){
+  $('#say_form').off().on('submit', function(e){
+    e.preventDefault();
     SENTINEL && window.App.chat_channel.send_msg($('#say').val());
     SENTINEL = false;
     $('#say').val('');
