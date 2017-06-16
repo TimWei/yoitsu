@@ -50,7 +50,7 @@ router.route('/', function(cur_hash) {
   $('#sign_in_btn').click(function(){
     $('#login-value').val('');
   });
-  $('#login-value').bind('input', function(){
+  $('#login-value').on('input', function(){
     value = this.value;
     btn = $('#sign_in_btn');
     if(value == ''){
@@ -78,21 +78,6 @@ router.route('rooms', function(cur_hash) {
   get_access_token();
   div_active($('#rooms'));
   get_rooms_list();
-  $('#say').bind('input', function(){
-    value = this.value;
-    btn = $('#say_button');
-    if(value == ''){
-      btn.attr('disabled',true);
-      btn.removeClass('btn-success');
-      btn.removeClass('btn-default');
-      btn.addClass('btn-danger');
-    }else{
-      btn.attr('disabled',false);
-      btn.addClass('btn-success');
-      btn.removeClass('btn-default');
-      btn.removeClass('btn-danger');
-    }
-  })
 });
 
 router.route('error', function(cur_hash) {
@@ -136,7 +121,7 @@ function user_signin() {
     },
     success: function (data) {
       if (data['success'] == 'true') {
-        document.cookie = 't=' + data['data']['access_token'];
+        document.cookie = 't=' + data['data']['access_token'] + '; expires=Fri, 31 Dec 9999 23:59:59 GMT';
         console.log('access_token: ' + data['data']['access_token']);
         get_access_token();
         window.location.hash = 'rooms';
@@ -190,7 +175,22 @@ function chat_init(room_id) {
   $('#chats').html('');
   get_exsit_message(room_id);
   chat_channel(room_id);
-  $('#say_button').unbind().click(function(){
+  $('#say').off().on('input', function(){
+    value = this.value;
+    btn = $('#say_button');
+    if(value == ''){
+      btn.attr('disabled',true);
+      btn.removeClass('btn-success');
+      btn.removeClass('btn-default');
+      btn.addClass('btn-danger');
+    }else{
+      btn.attr('disabled',false);
+      btn.addClass('btn-success');
+      btn.removeClass('btn-default');
+      btn.removeClass('btn-danger');
+    }
+  })
+  $('#say_button').off().click(function(){
     window.App.chat_channel.send_msg($('#say').val());
     $('#say').val('');
   });
@@ -257,7 +257,6 @@ function chat_channel(enter_room_id) {
       },
       received: function (data) {
         writeLog(data)
-        //TODO append received msg to billboard here
         console.log(data);
         new_message(data)
       },
