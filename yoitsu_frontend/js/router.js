@@ -1,5 +1,6 @@
 var USER_NAME = "";
 var ACCESS_TOKEN = null;
+var ACCESS_TOKEN = 'Gf34uJf4T4gNdes9Hk23cjAk';
 var HOST = '//chat.netoge-haijin.moe';
 var CABLE_HOST = 'ws://chat.netoge-haijin.moe/cable';
 var SENTINEL = true;
@@ -167,7 +168,7 @@ function new_room_item(room) {
 function chat_init(room_id) {
   // clear
   $('#chats').html('');
-  get_exsit_message(room_id);
+  get_exist_message(room_id);
   chat_channel(room_id);
   $('#say').off().on('input', function(){
     value = this.value;
@@ -188,7 +189,7 @@ function chat_init(room_id) {
   });
 }
 
-function get_exsit_message(room_id){
+function get_exist_message(room_id){
   res = $.ajax({
     type: "GET",
     url: HOST + '/api/v1/rooms/' + room_id,
