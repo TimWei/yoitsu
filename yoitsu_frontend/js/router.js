@@ -1,7 +1,8 @@
 var USER_NAME = "";
 var ACCESS_TOKEN = null;
 var HOST = '//chat.netoge-haijin.moe';
-var CABLE_HOST = 'ws://chat.netoge-haijin.moe/cable'
+var CABLE_HOST = 'ws://chat.netoge-haijin.moe/cable';
+var SENTINEL = true;
 window.App = {};
 
 function get_access_token() {
@@ -191,7 +192,8 @@ function chat_init(room_id) {
     }
   })
   $('#say_button').off().click(function(){
-    window.App.chat_channel.send_msg($('#say').val());
+    SENTINEL && window.App.chat_channel.send_msg($('#say').val());
+    SENTINEL = false;
     $('#say').val('');
   });
 }
@@ -202,6 +204,7 @@ function get_exsit_message(room_id){
     url: HOST + '/api/v1/rooms/' + room_id,
     data: { 'access_token': ACCESS_TOKEN },
     success: function (data) {
+      SENTINEL = true;
       if (data['success'] == 'true') {
         exsit_message = data['data']['exist_messages']
         console.log('old message size: ' + exsit_message['size'])
@@ -212,6 +215,7 @@ function get_exsit_message(room_id){
       }
     },
     error: function (json) {
+      SENTINEL = true;
       console.log('API not available!');
       window.location.hash = 'error';
     }
@@ -240,34 +244,33 @@ function chat_channel(enter_room_id) {
   if (window.App.chat_channel) {
     window.App.cable.subscriptions.remove(window.App.chat_channel);
   }
-  window.App.cable = ActionCable.createConsumer(CABLE_HOST)
+  window.App.cable = ActionCable.createConsumer(CABLE_HOST);
   window.App.chat_channel = window.App.cable.subscriptions.create({ 
     channel: "ChatChannel", 
     room_id: enter_room_id, 
     access_token: ACCESS_TOKEN }, 
     {
       connected: function () {
-        writeLog("connected")
+        writeLog("connected");
       },
       disconnected: function () {
-        writeLog("disconnected")
+        writeLog("disconnected");
       },
       rejected: function () {
-        writeLog("rejected")
+        writeLog("rejected");
       },
       received: function (data) {
-        writeLog(data)
-        console.log(data);
-        new_message(data)
+        writeLog(data);
+        new_message(data);
       },
       send_msg: function (data) {
-        writeLog("sending")
-        this.perform("send_msg", { msg: data })
+        writeLog("sending");
+        this.perform("send_msg", { msg: data });
       },
     }
   );
 
   function writeLog(message) {
-    console.log("===WS: " + message)
+    console.log("===WS: " + message);
   }
 }
