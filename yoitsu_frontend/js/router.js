@@ -55,15 +55,9 @@ router.route('/', function(cur_hash) {
     value = this.value;
     btn = $('#sign_in_btn');
     if(value == ''){
-      btn.attr('disabled',true);
-      btn.removeClass('btn-success');
-      btn.removeClass('btn-default');
-      btn.addClass('btn-danger');
+      btn_state(btn, 'danger');
     }else{
-      btn.attr('disabled',false);
-      btn.addClass('btn-success');
-      btn.removeClass('btn-default');
-      btn.removeClass('btn-danger');
+      btn_state(btn, 'success');
     }
   })
 });
@@ -180,21 +174,17 @@ function chat_init(room_id) {
     value = this.value;
     btn = $('#say_button');
     if(value == ''){
-      btn.attr('disabled',true);
-      btn.removeClass('btn-success');
-      btn.removeClass('btn-default');
-      btn.addClass('btn-danger');
+      btn_state(btn, 'danger');
     }else{
-      btn.attr('disabled',false);
-      btn.addClass('btn-success');
-      btn.removeClass('btn-default');
-      btn.removeClass('btn-danger');
+      SENTINEL = true;
+      btn_state(btn, 'success');
     }
-  })
+  });
   $('#say_button').off().click(function(){
     SENTINEL && window.App.chat_channel.send_msg($('#say').val());
     SENTINEL = false;
     $('#say').val('');
+    btn_state(btn, 'danger');
   });
 }
 
@@ -236,6 +226,23 @@ function new_message(message) {
   );
 }
 
+function btn_state(btn, state){
+  switch(state){
+    case 'danger':
+      btn.attr('disabled',true);
+      btn.removeClass('btn-success');
+      btn.removeClass('btn-default');
+      btn.addClass('btn-danger');
+    break;
+    case 'success':
+      btn.attr('disabled',false);
+      btn.addClass('btn-success');
+      btn.removeClass('btn-default');
+      btn.removeClass('btn-danger');
+    break;
+  }
+
+}
 
 function chat_channel(enter_room_id) {
   console.log("channel");
@@ -263,7 +270,6 @@ function chat_channel(enter_room_id) {
       },
       send_msg: function (data) {
         writeLog("sending");
-        SENTINEL = true;
         this.perform("send_msg", { msg: data });
       },
     }
