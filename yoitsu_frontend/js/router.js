@@ -204,7 +204,6 @@ function get_exsit_message(room_id){
     url: HOST + '/api/v1/rooms/' + room_id,
     data: { 'access_token': ACCESS_TOKEN },
     success: function (data) {
-      SENTINEL = true;
       if (data['success'] == 'true') {
         exsit_message = data['data']['exist_messages']
         console.log('old message size: ' + exsit_message['size'])
@@ -215,7 +214,6 @@ function get_exsit_message(room_id){
       }
     },
     error: function (json) {
-      SENTINEL = true;
       console.log('API not available!');
       window.location.hash = 'error';
     }
@@ -265,6 +263,7 @@ function chat_channel(enter_room_id) {
       },
       send_msg: function (data) {
         writeLog("sending");
+        SENTINEL = true;
         this.perform("send_msg", { msg: data });
       },
     }
