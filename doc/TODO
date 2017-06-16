@@ -1,11 +1,7 @@
 #TODOs
 
 - 前端 
-	. callback位置需放正確 	
-	. 滑鼠連打對策(add thresh)
 	. loading page 
+	. nav bar btn
+	. name color by access token 
 	
-- 後端 
-	exist_message 改用 redis的緩存
-	redis弄房間人數
-	mv sql to active job(maybe better???? need research)
