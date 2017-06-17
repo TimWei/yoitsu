@@ -217,7 +217,7 @@ function new_message(message) {
   // wrap on chat
   var message_div = $('<div>');
   // name
-  var label_item = $('<label class="control-label">').css("color", message.color).html(message.sender);
+  var label_item = $('<label class="control-label">').css("color", '#' + message.color).html(message.sender);
   // at time
   var span_item = $('<span class="pull-right">').html(message.at);
   // content
