@@ -14,5 +14,11 @@
 class User < ApplicationRecord
 	has_many :messages
 	has_many :rooms, through: :messages
-	has_secure_token 
+	has_secure_token
+	after_create :set_color
+
+	def set_color
+		self.color = self.token.each_char.map{|t| (t.ord * 7 % 16).to_s(16) }.join
+		self.save
+	end
 end
