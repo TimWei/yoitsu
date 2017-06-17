@@ -18,7 +18,7 @@ class User < ApplicationRecord
 	after_create :set_color
 
 	def set_color
-		self.color = self.token.each_char.map{|t| (t.ord * 7 % 16).to_s(16) }.join
+		self.color = self.token[0..5].each_char.map{|t| (t.ord * 7 % 16).to_s(16) }.join
 		self.save
 	end
 end
