@@ -14,6 +14,6 @@ class Room < ApplicationRecord
 
 	def exist_messages
 		#will change to using Redis later
-		self.messages.map{|t| {id: t.id, sender: t.name, content: CGI::escapeHTML(t.content), at: t.created_at.strftime('%H:%M') }, color: t.color }
+		self.messages.map{|t| {id: t.id, sender: t.name, content: CGI::escapeHTML(t.content), at: t.created_at.strftime('%H:%M'), color: t.color } }
 	end
 end
