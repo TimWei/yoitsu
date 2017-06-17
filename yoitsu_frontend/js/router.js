@@ -1,5 +1,6 @@
 var USER_NAME = "";
 var ACCESS_TOKEN = null;
+var USER_COLOR = "#000000";
 var HOST = '//chat.netoge-haijin.moe';
 var CABLE_HOST = 'ws://chat.netoge-haijin.moe/cable';
 var SENTINEL = true;
@@ -9,6 +10,13 @@ function get_access_token() {
   cur_token = document.cookie.match(/;?\s*t=([a-zA-Z0-9]+)/)
   if(cur_token){
     ACCESS_TOKEN = cur_token[1]
+    USER_COLOR = "#" +
+      (ACCESS_TOKEN.charCodeAt(0) * 7 % 16).toString(16) +
+      (ACCESS_TOKEN.charCodeAt(1) * 7 % 16).toString(16) +
+      (ACCESS_TOKEN.charCodeAt(2) * 7 % 16).toString(16) +
+      (ACCESS_TOKEN.charCodeAt(3) * 7 % 16).toString(16) +
+      (ACCESS_TOKEN.charCodeAt(4) * 7 % 16).toString(16) +
+      (ACCESS_TOKEN.charCodeAt(5) * 7 % 16).toString(16);
   }else{
     ACCESS_TOKEN = null
   } 
@@ -167,7 +175,7 @@ function new_room_item(room) {
 function chat_init(room_id) {
   // clear
   $('#chats').html('');
-  get_exsit_message(room_id);
+  get_exist_message(room_id);
   chat_channel(room_id);
   $('#say').off().on('input', function(){
     value = this.value;
@@ -188,16 +196,16 @@ function chat_init(room_id) {
   });
 }
 
-function get_exsit_message(room_id){
+function get_exist_message(room_id){
   res = $.ajax({
     type: "GET",
     url: HOST + '/api/v1/rooms/' + room_id,
     data: { 'access_token': ACCESS_TOKEN },
     success: function (data) {
       if (data['success'] == 'true') {
-        exsit_message = data['data']['exist_messages']
-        console.log('old message size: ' + exsit_message['size'])
-        exist_messages = exsit_message['list']
+        exist_message = data['data']['exist_messages']
+        console.log('old message size: ' + exist_message['size'])
+        exist_messages = exist_message['list']
         exist_messages.forEach(e =>
           new_message(e)
         )
@@ -215,7 +223,7 @@ function new_message(message) {
   // wrap on chat
   var message_div = $('<div>');
   // name
-  var label_item = $('<label class="control-label">').html(message.sender);
+  var label_item = $('<label class="control-label">').css("color", USER_COLOR).html(message.sender);
   // at time
   var span_item = $('<span class="pull-right">').html(message.at);
   // content
