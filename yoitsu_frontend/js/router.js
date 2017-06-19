@@ -157,7 +157,7 @@ function new_room_item(room) {
   var rooms = $('#room-list');
   var click_pad = $('<a href="#rooms/' + room.id + '">')
   var li_item = $("<li class='list-group-item'>").text(room.name);
-  var span_item =$("<span class='badge'>").text(room.id);
+  var span_item =$("<span class='badge'>").text(room.counter);
  
   li_item.append(span_item);
   click_pad.append(li_item);
