@@ -221,7 +221,7 @@ function new_message(message) {
   // at time
   var span_item = $('<span class="pull-right">').html(message.at);
   // content
-  var message_content = $('<div class="well well-sm">').html(message.content);
+  var message_content = $('<div class="well well-sm msg_text">').html(message.content);
   var chats = $('#chats');
   $('#chats').prepend(
     message_div.append(label_item).append(span_item).append(message_content)
