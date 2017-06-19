@@ -19,6 +19,8 @@ Rails.application.routes.draw do
 				post '/' => 'room#create'
 				#enter room
 				get '/:room_id' => 'room#show'
+				#get room's user list
+				get '/:room_id/users' => 'room#users'
 			end
 
 		end

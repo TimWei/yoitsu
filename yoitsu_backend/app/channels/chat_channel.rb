@@ -2,15 +2,16 @@ class ChatChannel < ApplicationCable::Channel
   def subscribed
     @room_id = params[:room_id] 
     @sender = User.find_by_token(params[:access_token])
+    @redis = Redis.current
     stop_all_streams
     stream_from "room_#{@room_id}"
-    Redis.current.incr "room_#{@room_id}"
+    @redis.sadd "room_#{@room_id}_userlist", "#{@sender.id}_#{@sender.name}" 
     @subscribed = true
   end
 
   def unsubscribed
     stop_all_streams
-    Redis.current.decr "room_#{@room_id}"
+    @redis.srem "room_#{@room_id}_userlist", "#{@sender.id}_#{@sender.name}" 
     @subscribed = false
   end
 
