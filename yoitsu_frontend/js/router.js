@@ -104,10 +104,7 @@ function check_server_available() {
 function user_signin(e) {
   e.preventDefault();
   USER_NAME = $('#login-value').val();
-  console.log(USER_NAME);
-  //clear
   $('#room-list').html('');
-
   res = $.ajax({
     type: "POST",
     url: HOST + "/api/v1/users",
@@ -123,7 +120,7 @@ function user_signin(e) {
       }
     },
     error: function (json) {
-      console.log('sign in fail');
+      console.log('sign-in failed');
       window.location.hash = 'error';
     }
   });
@@ -137,7 +134,7 @@ function get_rooms_list() {
     success: function (data) {
       if (data['success'] == 'true') {
         $('#room-list').html('');
-        console.log('size: ' + data['data']['size'])
+        console.log('rooms size: ' + data['data']['size'])
         room_list = data['data']['list']
         room_list.forEach(e =>
           new_room_item(e)
@@ -152,7 +149,7 @@ function get_rooms_list() {
 }
 
 function new_room_item(room) {
-  console.log(room);
+  // console.log(room);
   var rooms = $('#room-list');
   var click_pad = $('<a href="#rooms/' + room.id + '">')
   var li_item = $("<li class='list-group-item'>").text(room.name);
@@ -162,7 +159,7 @@ function new_room_item(room) {
   click_pad.append(li_item);
   rooms.append(click_pad);
 
-  console.log("get room id : " + room.id);
+  console.log("craeting room elem on room_id:" + room.id);
 }
 
 function chat_init(room_id) {
@@ -197,7 +194,7 @@ function get_exist_message(room_id){
     success: function (data) {
       if (data['success'] == 'true') {
         exist_message = data['data']['exist_messages']
-        console.log('old message size: ' + exist_message['size'])
+        console.log('exist messages size: ' + exist_message['size'])
         exist_messages = exist_message['list']
         exist_messages.forEach(e =>
           new_message(e)
@@ -212,7 +209,7 @@ function get_exist_message(room_id){
 }
 
 function new_message(message) {
-  console.log("get message id: " + message.id);
+  console.log("creating message elem on msg_id:" + message.id);
   // wrap on chat
   var message_div = $('<div>');
   // name
@@ -246,8 +243,8 @@ function btn_state(btn, state){
 }
 
 function chat_channel(enter_room_id) {
-  console.log("channel");
   if (window.App.chat_channel) {
+    console.log('Unsubscribe exist channel')
     window.App.cable.subscriptions.remove(window.App.chat_channel);
   }
   window.App.cable = ActionCable.createConsumer(CABLE_HOST);
@@ -277,6 +274,6 @@ function chat_channel(enter_room_id) {
   );
 
   function writeLog(message) {
-    console.log("===WS: " + message);
+    console.log("WebSocketed: " + message);
   }
 }
