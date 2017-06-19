@@ -27,7 +27,7 @@ class Api::V1::RoomController < ApplicationController
 
 	def users
 		room = Room.find_by_id params[:room_id]
-		users = Redis.current.smembers("room_#{@room_id}_userlist")
+		users = Redis.current.smembers("room_#{room.id}_userlist")
 		users_info = {}
 		users_info['list'] = users.map{|t| t.split('_')[1..-1].join('_') }
 		send_res data: users_info
