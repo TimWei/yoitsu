@@ -254,9 +254,11 @@ function chat_channel(enter_room_id) {
     access_token: ACCESS_TOKEN }, 
     {
       connected: function () {
+        $('#say').attr('disabled', false)
         writeLog("connected");
       },
       disconnected: function () {
+        $('#say').attr('disabled', true)
         writeLog("disconnected");
       },
       rejected: function () {
