@@ -15,7 +15,7 @@ class Room < ApplicationRecord
 
   def exist_messages
     #will change to using Redis later
-    self.messages.order(:id).limit(35).map{|t| {id: t.id, sender: t.name, content: CGI::escapeHTML(t.content), at: t.created_at.strftime('%H:%M'), color: t.color } }
+    self.messages.order('id DESC').limit(35).reverse.map{|t| {id: t.id, sender: t.name, content: CGI::escapeHTML(t.content), at: t.created_at.strftime('%H:%M'), color: t.color } }
   end
   def set_counter
     Redis.current.set "room_#{self.id}", '0'
