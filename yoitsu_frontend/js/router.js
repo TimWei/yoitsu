@@ -244,7 +244,8 @@ function btn_state(btn, state){
 
 function chat_channel(enter_room_id) {
   if (window.App.chat_channel) {
-    console.log('Unsubscribe exist channel')
+    console.log('Unsubscribe exist channel');
+    $('#say').attr('disabled', true);
     window.App.cable.subscriptions.remove(window.App.chat_channel);
   }
   window.App.cable = ActionCable.createConsumer(CABLE_HOST);
