@@ -18,6 +18,10 @@ function FrontRouter() {
   window.addEventListener('hashchange', this.resolve.bind(this), false);
 }
 
+function NavBar() {
+  
+}
+
 FrontRouter.prototype.route = function (path, callback) {
   this.routes[path] = callback || function () { };
 };
@@ -43,6 +47,10 @@ FrontRouter.prototype.match_reg = function (cur_hash) {
   }
   return match_key
 };
+
+NavBar.prototype.add_btn = function(btn_id, callback) {
+  $('#'+btn_id).addEventListener("click", callback);
+}
 
 var router = new FrontRouter();
 
