@@ -12,6 +12,7 @@ Rails.application.routes.draw do
 				# get user info by access token
 				post '/' => 'user#create'
 			end
+			
 			scope 'rooms' do
 				#get room list
 				get '/' => 'room#index'
