@@ -7,13 +7,9 @@ var SENTINEL = true;
 window.App = {};
 
 function get_access_token() {
-  cur_token = document.cookie.match(/;?\s*t=([a-zA-Z0-9]+)/)
-  if(cur_token){
-    ACCESS_TOKEN = cur_token[1]
-  
-  }else{
-    ACCESS_TOKEN = null
-  } 
+  cur_token = document.cookie.match(/;?\s*t=([a-zA-Z0-9]+)/);
+  ACCESS_TOKEN = cur_token ? cur_token[1] : null;
+  ACCESS_TOKEN || function(){window.location.hash = ''}();
 }
 
 function FrontRouter() {
