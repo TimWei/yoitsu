@@ -4,7 +4,7 @@ class Api::V1::RoomController < ApplicationController
 		rooms = Room.all
 		rooms_info = {}
 		rooms_info['size'] = rooms.size
-		rooms_info['list'] = rooms.map{|t| {id: t.id, name: t.name, counter: Redis.current.get "room_#{t.id}"}}
+		rooms_info['list'] = rooms.map{|t| {id: t.id, name: t.name, counter: Redis.current.get("room_#{t.id}")}}
 		send_res data: rooms_info
 	end
 
