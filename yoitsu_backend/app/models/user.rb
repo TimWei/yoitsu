@@ -9,6 +9,7 @@
 #  last_login :datetime
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  color      :string(255)
 #
 
 class User < ApplicationRecord
