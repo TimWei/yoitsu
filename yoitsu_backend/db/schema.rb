@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170617042817) do
+ActiveRecord::Schema.define(version: 20170619095850) do
 
   create_table "messages", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.text     "content",    limit: 65535
@@ -20,6 +20,8 @@ ActiveRecord::Schema.define(version: 20170617042817) do
     t.datetime "updated_at",               null: false
     t.string   "name"
     t.string   "color"
+    t.index ["room_id"], name: "index_messages_on_room_id", using: :btree
+    t.index ["user_id"], name: "index_messages_on_user_id", using: :btree
   end
 
   create_table "rooms", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
