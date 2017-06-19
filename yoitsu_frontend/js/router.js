@@ -6,10 +6,10 @@ var CABLE_HOST = 'ws://chat.netoge-haijin.moe/cable';
 var SENTINEL = true;
 window.App = {};
 
-function get_access_token() {
+function read_cookie(opt={}) {
   cur_token = document.cookie.match(/;?\s*t=([a-zA-Z0-9]+)/);
   ACCESS_TOKEN = cur_token ? cur_token[1] : null;
-  ACCESS_TOKEN || function(){window.location.hash = ''}();
+  opt['init'] == true || ACCESS_TOKEN || function(){ throw 'no access_token' }()
 }
 
 function FrontRouter() {
@@ -25,7 +25,11 @@ FrontRouter.prototype.route = function (path, callback) {
 FrontRouter.prototype.resolve = function () {
   this.curHash = location.hash.slice(1) || '/';
   match_key = this.match_reg( this.curHash )
-  typeof this.routes[match_key] === 'function' && this.routes[match_key](this.curHash);
+  try{
+    typeof this.routes[match_key] === 'function' && this.routes[match_key](this.curHash);
+  }catch(e){
+    window.location.hash = ''
+  }
 };
 
 FrontRouter.prototype.match_reg = function (cur_hash) {
@@ -43,7 +47,7 @@ FrontRouter.prototype.match_reg = function (cur_hash) {
 var router = new FrontRouter();
 
 router.route('/', function(cur_hash) {
-  get_access_token();
+  read_cookie({init: true}); 
   check_server_available();
   div_active($('#login'));
   $('#login-value').on('input', function(){
@@ -59,14 +63,14 @@ router.route('/', function(cur_hash) {
 });
 
 router.route('rooms\\/[0-9]*', function(cur_hash) {
-  get_access_token();
+  read_cookie();
   room_id = cur_hash.split('/')[1];
   chat_init(room_id); 
   div_active($('#chat_box'));
 });
 
 router.route('rooms', function(cur_hash) {
-  get_access_token();
+  read_cookie();
   div_active($('#rooms'));
   get_rooms_list();
 });
@@ -115,7 +119,6 @@ function user_signin(e) {
       if (data['success'] == 'true') {
         document.cookie = 't=' + data['data']['access_token'] + '; expires=Fri, 31 Dec 9999 23:59:59 GMT';
         console.log('access_token: ' + data['data']['access_token']);
-        get_access_token();
         window.location.hash = 'rooms';
       }
     },
