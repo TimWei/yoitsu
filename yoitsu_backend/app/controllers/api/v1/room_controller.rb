@@ -4,7 +4,7 @@ class Api::V1::RoomController < ApplicationController
 		rooms = Room.all
 		rooms_info = {}
 		rooms_info['size'] = rooms.size
-		rooms_info['list'] = rooms.map{|t| {id: t.id, name: t.name, counter: Redis.current.get("room_#{t.id}")}}
+		rooms_info['list'] = rooms.map{|t| {id: t.id, name: t.name, counter: Redis.current.smembers("room_#{@room_id}_userlist").size}}
 		send_res data: rooms_info
 	end
 
@@ -23,6 +23,14 @@ class Api::V1::RoomController < ApplicationController
 		room_info = {}
 		room_info['exist_messages'] = {size: exist_messages.size, list: exist_messages}
 		send_res data: room_info
+	end 
+
+	def users
+		room = Room.find_by_id params[:room_id]
+		users = Redis.current.smembers("room_#{@room_id}_userlist")
+		users_info = {}
+		users_info['list'] = users.map{|t| t.split('_')[1..-1].join('_') }
+		send_res data: users_info
 	end 
 
 	private 
