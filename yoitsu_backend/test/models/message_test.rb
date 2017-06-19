@@ -11,6 +11,11 @@
 #  name       :string(255)
 #  color      :string(255)
 #
+# Indexes
+#
+#  index_messages_on_room_id  (room_id)
+#  index_messages_on_user_id  (user_id)
+#
 
 require 'test_helper'
 
