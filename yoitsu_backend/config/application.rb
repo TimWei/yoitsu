@@ -18,5 +18,6 @@ module YoitsuBackend
     config.api_only = true
 		config.action_cable.disable_request_forgery_protection = true
     config.time_zone = 'Taipei'
+    config.active_record.default_timezone = :local
   end
 end
