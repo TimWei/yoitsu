@@ -18,9 +18,23 @@ function FrontRouter() {
   window.addEventListener('hashchange', this.resolve.bind(this), false);
 }
 
-function NavBar() {
-  
+//nav bar
+var NavBar = function() {
+  this.id = $('#nav_btns');
+  this.buttons = {};
 }
+
+NavBar.prototype.add_btn = function(callback, attrs) {
+    this.id.append(callback);
+}
+
+var navbar = new NavBar();
+navbar.add_btn( function(){
+  var a_item = $('a').attr('href', '#rooms').text("back to rooms");
+  var li_item = $('li');
+  return a_item.append(li_item);
+}, "");
+// nav bar end
 
 FrontRouter.prototype.route = function (path, callback) {
   this.routes[path] = callback || function () { };
@@ -32,25 +46,21 @@ FrontRouter.prototype.resolve = function () {
   try{
     typeof this.routes[match_key] === 'function' && this.routes[match_key](this.curHash);
   }catch(e){
-    window.location.hash = ''
+    window.location.hash = '';
   }
 };
 
 FrontRouter.prototype.match_reg = function (cur_hash) {
   // if matching nothing goes '/'
-  match_key = '/'
+  match_key = '/';
   for( router_key in this.routes){
-    reg = new RegExp('^' + router_key + '$')
+    reg = new RegExp('^' + router_key + '$');
     if(cur_hash.match(reg)){
-      match_key = router_key
+      match_key = router_key;
     }
   }
-  return match_key
+  return match_key;
 };
-
-NavBar.prototype.add_btn = function(btn_id, callback) {
-  $('#'+btn_id).addEventListener("click", callback);
-}
 
 var router = new FrontRouter();
 
@@ -91,7 +101,6 @@ function div_active(element) {
   $('.container > div').hide();
   element.show();
 }
-
 
 function check_server_available() {
   res = $.ajax({
@@ -167,7 +176,7 @@ function new_room_item(room) {
   click_pad.append(li_item);
   rooms.append(click_pad);
 
-  console.log("craeting room elem on room_id:" + room.id);
+  console.log("creating room elem on room_id:" + room.id);
 }
 
 function chat_init(room_id) {
