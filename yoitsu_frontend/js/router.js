@@ -19,21 +19,18 @@ function FrontRouter() {
 }
 
 //nav bar
-var NavBar = function() {
+function NavBar() {
   this.id = $('#nav_btns');
   this.buttons = {};
+  this.add_btn = function(text, forward) {
+    var a_item = $('<a href="' + forward + '">').text(text);
+    var li_item = $('<li>');
+    this.id.append(li_item.append(a_item));
+  }
+  this.clean = function() {
+    this.id.empty();
+  }
 }
-
-NavBar.prototype.add_btn = function(callback, attrs) {
-    this.id.append(callback);
-}
-
-var navbar = new NavBar();
-navbar.add_btn( function(){
-  var a_item = $('a').attr('href', '#rooms').text("back to rooms");
-  var li_item = $('li');
-  return a_item.append(li_item);
-}, "");
 // nav bar end
 
 FrontRouter.prototype.route = function (path, callback) {
@@ -170,7 +167,7 @@ function new_room_item(room) {
   var rooms = $('#room-list');
   var click_pad = $('<a href="#rooms/' + room.id + '">')
   var li_item = $("<li class='list-group-item'>").text(room.name);
-  var span_item =$("<span class='badge'>").text(room.counter);
+  var span_item = $("<span class='badge'>").text(room.counter);
  
   li_item.append(span_item);
   click_pad.append(li_item);
