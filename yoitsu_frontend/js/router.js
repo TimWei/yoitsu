@@ -2,7 +2,7 @@ var USER_NAME = "";
 var ACCESS_TOKEN = null;
 var USER_COLOR = "#000000";
 var HOST = '//chat.netoge-haijin.moe';
-var CABLE_HOST = 'ws://chat.netoge-haijin.moe/cable';
+var CABLE_HOST = 'wss://chat.netoge-haijin.moe/cable';
 var SENTINEL = true;
 window.App = {};
 
